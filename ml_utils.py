@@ -1,10 +1,12 @@
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 
 # define a Gaussain NB classifier
 clf = GaussianNB()
+knn_clf = KNeighborsClassifier()
 
 # define the class encodings and reverse encodings
 classes = {0: "Iris Setosa", 1: "Iris Versicolour", 2: "Iris Virginica"}
@@ -18,10 +20,19 @@ def load_model():
     # do the test-train split and train the model
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
     clf.fit(X_train, y_train)
+    knn_clf.fit(X_train, y_train)
 
     # calculate the print the accuracy score
     acc = accuracy_score(y_test, clf.predict(X_test))
-    print(f"Model trained with accuracy: {round(acc, 3)}")
+    print(f"Gaussian NB accuracy: {round(acc, 3)}")
+    knn_acc = accuracy_score(y_test, knn_clf.predict(X_test))
+    print(f"KNN accuracy: {round(knn_acc, 3)}")
+    if knn_acc > acc:
+        acc = knn_acc
+        globals()['clf'] = knn_clf
+        print('Using KNN classifier')
+    else:
+        print('Using Gaussian NB classifier')
 
 
 # function to predict the flower using the model

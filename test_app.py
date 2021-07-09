@@ -26,7 +26,7 @@ def test_pred_virginica():
         assert response.json()["flower_class"] == "Iris Virginica"
         assert "timestamp" in response.json()
 
-# test to check if Iris Virginica is classified correctly
+# test to check if Iris Setosa is classified correctly
 def test_pred_setosa():
     # defining a sample payload for the testcase
     payload = {
